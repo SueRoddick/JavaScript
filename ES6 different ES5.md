@@ -176,3 +176,23 @@ tokenize(TOKEN_G, '3x + 4')// [ '3', '+', '4' ]
 ```
 
 上面代码中，g修饰符会忽略非法字符，而y修饰符不会，这样就很容易发现错误。
+
+##  4 、数值
+
+二进制  0b
+
+八进制 0o（逐步淘汰ES5中八进制前缀0）
+
+Number.isFinite()   
+
+Number.isNaN()
+
+
+
+Number.MAX_SAFE_INTEGER
+
+Number.MIN_SAFE_INTERGER
+
+用Number.isSafeInteger()来判断一个整数是否在安全范围（-2<sup>53</sup>~2<sup>53</sup>)
+
+Math.trunc()  用于去除一个数的小数部分，返回整数（4.9返回4）

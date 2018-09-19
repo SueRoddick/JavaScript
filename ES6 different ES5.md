@@ -44,6 +44,8 @@ String.fromCodePont(134071) // 𠮷
 
 ;('\u{20BB7}') // "𠮷"
 
+### 3、正则表达式
+
 // ES6 对正则表达式添加了u修饰符，处理发育\uFFFF的Unicode字符
 
 var s = '𠮷'

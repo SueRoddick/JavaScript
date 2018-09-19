@@ -85,3 +85,94 @@ console.log(r2.exec(s)) //["aa_", index: 4, input: "aaa_aa_a"]
 console.log(r1.exec(s)) //["a", index: 7, input: "aaa_aa_a"]
 console.log(r2.exec(s)) /
 ```
+
+上面代码每次匹配，都是从剩余字符串的头部开始。使用 lastIndex 属性，可以更好地说明 y 修饰符。
+
+```javascript
+var s = 'aaa_aa_a';
+
+const REGEX = /a/y;
+// 指定从2号位置开始匹配
+REGEX.lastIndex = 2;
+// 不是粘连，匹配失败
+REGEX.exec('aya') // null
+// 指定从3号位置开始匹配
+REGEX.lastIndex = 3;
+// 3号位置是粘连，匹配成功
+const match = REGEX.exec('xaxa');
+match.index // 3
+REGEX.lastIndex // 4
+```
+
+实际上，y 修饰符号隐含了头部匹配的标识 ^。实际上，y 修饰符号隐含了头部匹配的标识 ^。
+
+```javascript
+/b/y.exec('aba')
+// null
+```
+
+上面代码由与不能保证头部匹配，所以返回 null ，y修饰符的设计本意，就是让头部匹配的标识 ^ 在全局匹配中都有效。
+
+在 split 方法中使用 y 修饰符，原字符串必须以分隔符开头。这也意味着，只要匹配成功，数组的第一个成员肯定是空字符串。
+
+```javascript
+'x##'.split(/#/y)
+//["x", "", ""]
+'##x'.split(/#/y)
+// ["", "", "x"]
+```
+
+后续的分隔符只有紧跟前面的分隔符，才会被识别。
+
+```javascript
+'#x#'.split(/#/y)
+// ["", "x", ""]
+'##'.split(/#/y)
+// ["", "", ""]
+```
+
+下面是字符串对象的 replace 方法例子
+
+```javascript
+const REGEX = /a/gy;
+'aaxa'.replace(REGEX, '-') // '--xa'
+```
+
+上面代码中，最后一个 a 因为不是出现在下一次匹配的头部，所以不会被替换。
+
+单单一个 y 修饰符对，math 方法，只能返回第一个匹配，必须与 g 修饰符联用，才能返回所以匹配。
+
+```javascript
+'a1a2a3'.match(/a\d/y) // ["a1"]
+'a1a2a3'.match(/a\d/gy) // ["a1", "a2", "a3"]
+```
+
+y 修饰符的一个应用，是从字符串提取 token（词元），y 修饰符确保了匹配之间不会漏掉的字符。
+
+```javascript
+const TOKEN_Y = /\s*(\+|[0-9]+)\s*/y;
+const TOKEN_G  = /\s*(\+|[0-9]+)\s*/g;
+ 
+tokenize(TOKEN_Y, '3 + 4')
+// [ '3', '+', '4' ]
+tokenize(TOKEN_G, '3 + 4')
+// [ '3', '+', '4' ]
+ 
+function tokenize(TOKEN_REGEX, str) {
+  let result = [];
+  let match;
+  while (match = TOKEN_REGEX.exec(str)) {
+    result.push(match[1]);
+  }
+  return result;
+}
+```
+
+上面代码中，如果字符串里面没有非法字符，y修饰符与g修饰符的提取结果是一样的。但是，一旦出现非法字符，两者的行为就不一样了。
+
+```javascript
+tokenize(TOKEN_Y, '3x + 4')// [ '3' ]
+tokenize(TOKEN_G, '3x + 4')// [ '3', '+', '4' ]
+```
+
+上面代码中，g修饰符会忽略非法字符，而y修饰符不会，这样就很容易发现错误。

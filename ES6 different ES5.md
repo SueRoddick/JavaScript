@@ -203,7 +203,7 @@ Math.trunc()  用于去除一个数的小数部分，返回整数（4.9返回4�
 
 __ 使用Object.getPrototypeOf()代替\_\_proto__!!!
 
-### prototype
+### `prototype`
 
 几乎所有的函数（除了一些内建函数）都有一个名为prototype（原型）的属性，这个属性是一个指针，指向一个对象，而这个对象的用途是包含可以有特定类型的所有实例共享的属性和方法。prototype是通过调用构造函数而创建的那个对象实例的原型对象。`hasOwnProperty()`判断指定属性是否为自有属性；in操作符对原型属性和自有属性都返回true。 
 
@@ -218,3 +218,16 @@ __ 使用Object.getPrototypeOf()代替\_\_proto__!!!
 Object.setPrototypeOf 方法的作用与`__proto__`相同，用来设置一个对象的 prototype 对象，返回参数对象本身，它是 ES6 正式推荐的设置原型对象的方法。
 
 Object.setPrototypeOf() （写操作）、Object.getPrototypeOf()（读操作）两个方法配套。
+
+### `symbol`
+
+ES6引入了一种新的原始数据类型Symbol，表示独一无二的值。
+
+基本数据类型有6种：Undefined、Null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
+
+这里新添加了一种：Symbol
+
+注意，`Symbol`函数前不能使用`new`命令，否则会报错。这是因为生成的Symbol是一个原始类型的值，不是对象
+
+`Symbol`函数可以接受一个字符串作为参数，表示对Symbol实例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
+

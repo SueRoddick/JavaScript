@@ -187,15 +187,53 @@ Number.isFinite()
 
 Number.isNaN()
 
-
-
-Number.MAX_SAFE_INTEGER
-
-Number.MIN_SAFE_INTERGER
-
 用Number.isSafeInteger()来判断一个整数是否在安全范围（-2<sup>53</sup>~2<sup>53</sup>)
 
+ES6 引入了`Number.MAX_SAFE_INTEGER`和`Number.MIN_SAFE_INTEGER`这两个常量，用来表示这个范围的上下限。
+
 Math.trunc()  用于去除一个数的小数部分，返回整数（4.9返回4）
+
+`Number.isInteger()`用来判断一个数值是否为整数。JavaScript 内部，整数和浮点数采用的是同样的储存方法，所以 2 和 2.0 被视为同一个值。
+
+ES6 将全局方法`parseInt()`和`parseFloat()`，移植到`Number`对象上面，行为完全保持不变。
+
+ES6 在`Number`对象上面，新增一个极小的常量`Number.EPSILON`。根据规格，它表示 1 与大于 1 的最小浮点数之间的差。`Number.EPSILON`实际上是 JavaScript 能够表示的最小精度。误差如果小于这个值，就可以认为已经没有意义了，即不存在误差了。
+
+#### 双曲函数方法
+
+ES6 新增了 6 个双曲函数方法。
+
+- `Math.sinh(x)` 返回`x`的双曲正弦（hyperbolic sine）
+
+- `Math.cosh(x)` 返回`x`的双曲余弦（hyperbolic cosine）
+
+- `Math.tanh(x)` 返回`x`的双曲正切（hyperbolic tangent）
+
+- `Math.asinh(x)` 返回`x`的反双曲正弦（inverse hyperbolic sine）
+
+- `Math.acosh(x)` 返回`x`的反双曲余弦（inverse hyperbolic cosine）
+
+- `Math.atanh(x)` 返回`x`的反双曲正切（inverse hyperbolic tangent
+
+  ES2016 新增了一个指数运算符（`**`）。
+
+  ```javascript
+  2 ** 2 // 4
+  2 ** 3 // 8
+  
+  // 相当于 2 ** (3 ** 2)
+  2 ** 3 ** 2  // 512
+  ```
+
+```javascript
+let a = 1.5;
+a **= 2;
+// 等同于 a = a * a;
+
+let b = 4;
+b **= 3;
+// 等同于 b = b * b * b;
+```
 
 ## 5、对象
 
@@ -231,3 +269,40 @@ ES6引入了一种新的原始数据类型Symbol，表示独一无二的值。
 
 `Symbol`函数可以接受一个字符串作为参数，表示对Symbol实例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
 
+## 6、函数扩展
+
+#### `rest参数`
+
+rest参数搭配的变量是一个数组可以使用数组的一切操作。注意的是rest参数之后不能再有其他参数（只能是最后一个参数）否则会报错。
+
+function rest(...values){
+let sum=0;
+for(var val of values){
+sum+=val;
+}
+return sum;
+}
+
+add(1,2,3)  //6
+
+#### `扩展运算符`
+
+扩展运算符则可以看作是rest参数的逆运算。可以将数组转化为参数列表
+
+如：console.log(1,...[2,3,4],5) //1 2 3 4 5 
+
+可以替代apply方法：
+Math.max.apply(null,[14,3,7])   //ES5写法
+
+Math.max(...[14,3,7]) //ES6写法
+
+用于合并数组:
+[1,2].concat(more) //ES5
+[1,2, ...more] //ES6
+
+与解构赋值结合： 
+let [first,...rest]=[1,2,3,4,5];
+
+first //1
+
+rest  //[2,3,4,5]

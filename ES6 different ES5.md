@@ -308,6 +308,7 @@ first //1
 rest  //[2,3,4,5]
 
 ## 7 深拷贝 扩展运算符(...)与Object.assign()
+```
 var obj = {a: 1, b: 2, c: { a: 3 },d: [4, 5]}
 var obj1 = obj
 var obj2 = JSON.parse(JSON.stringify(obj))//深拷贝常用方法
@@ -320,3 +321,4 @@ console.log(obj1) //{a: 999, b: 2, c: { a: -999 },d: [123, 5]}
 console.log(obj2) //{a: 1, b: 2, c: { a: 3 },d: [4, 5]}
 console.log(obj3) //{a: 1, b: 2, c: { a: -999 },d: [123, 5]}
 console.log(obj4) //{a: 1, b: 2, c: { a: -999 },d: [123, 5]}
+```
